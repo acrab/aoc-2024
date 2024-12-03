@@ -3,7 +3,7 @@
  */
 
 
-private fun readFile(name: String) =
+fun readFile(name: String) =
     object {}.javaClass.getResourceAsStream(name)?.bufferedReader()?.readLines() ?: error("Unable to read file $name!")
 
 fun readInput(name: String) = readFile("$name/input.txt")
