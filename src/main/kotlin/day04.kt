@@ -1,5 +1,3 @@
-typealias Grid<T> = List<List<T>>
-
 fun main() {
 
     // x is horizontal
