@@ -28,11 +28,11 @@ fun <T> Grid<T>.countAll(predicate: (T) -> Boolean) = sumOf { it.count(predicate
 
 typealias Point = Pair<Int, Int>
 
-fun <T> Grid<T>.up(start: Point): Point? = if (start.second == 0) null else Point(start.first, start.second - 1)
+fun up(start: Point): Point? = if (start.second == 0) null else Point(start.first, start.second - 1)
 fun <T> Grid<T>.down(start: Point): Point? =
     if (start.second == size - 1) null else Point(start.first, start.second + 1)
 
-fun <T> Grid<T>.left(start: Point): Point? = if (start.first == 0) null else Point(start.first - 1, start.second)
+fun left(start: Point): Point? = if (start.first == 0) null else Point(start.first - 1, start.second)
 fun <T> Grid<T>.right(start: Point): Point? =
     if (start.first == get(0).size - 1) null else Point(start.first + 1, start.second)
 
@@ -69,6 +69,15 @@ fun <T, U> MutableMap<T, MutableList<U>>.upsert(key: T, value: U) {
         set(key, mutableListOf(value))
     }
 }
+
+fun <T> MutableMap<T, Long>.addOrSet(key: T, value: Long) = set(key, (get(key) ?: 0) + value)
+
+fun <K, V> Map<K, V>.sumOf(calculation: (Map.Entry<K, V>) -> Long): Long {
+    var out = 0L
+    entries.forEach { out += calculation(it) }
+    return out
+}
+
 
 enum class Direction {
     UP,
