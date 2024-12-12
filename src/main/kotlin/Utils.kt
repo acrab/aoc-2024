@@ -40,6 +40,18 @@ fun <T> Grid<T>.positionOfFirst(predicate: (T) -> Boolean): Point {
     return Point(-1, -1)
 }
 
+/**
+ * If an entry for `key` exists, adds `value` to its list.
+ * If there's no entry, adds a new list for that key, with `value` as it's only member
+ */
+fun <T, U> MutableMap<T, MutableList<U>>.upsert(key: T, value: U) {
+    if (containsKey(key)) {
+        get(key)?.add(value)
+    } else {
+        set(key, mutableListOf(value))
+    }
+}
+
 enum class Direction {
     UP,
     LEFT,
@@ -52,4 +64,16 @@ enum class Direction {
         DOWN -> LEFT
         LEFT -> UP
     }
+}
+
+fun <T> Iterable<T>.sumOfIndexed(selector: (T, Int) -> Int): Int {
+    var sum = 0
+    forEachIndexed { index, t -> sum += selector(t, index) }
+    return sum
+}
+
+fun <T> Iterable<T>.sumOfIndexed(selector: (T, Long) -> Long): Long {
+    var sum = 0L
+    forEachIndexed { index, t -> sum += selector(t, index.toLong()) }
+    return sum
 }
