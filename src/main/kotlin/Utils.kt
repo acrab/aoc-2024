@@ -28,6 +28,16 @@ fun <T> Grid<T>.countAll(predicate: (T) -> Boolean) = sumOf { it.count(predicate
 
 typealias Point = Pair<Int, Int>
 
+fun <T> Grid<T>.up(start: Point): Point? = if (start.second == 0) null else Point(start.first, start.second - 1)
+fun <T> Grid<T>.down(start: Point): Point? =
+    if (start.second == size - 1) null else Point(start.first, start.second + 1)
+
+fun <T> Grid<T>.left(start: Point): Point? = if (start.first == 0) null else Point(start.first - 1, start.second)
+fun <T> Grid<T>.right(start: Point): Point? =
+    if (start.first == get(0).size - 1) null else Point(start.first + 1, start.second)
+
+fun <T> Grid<T>.cardinals(start: Point) = listOfNotNull(up(start), down(start), left(start), right(start))
+
 fun <T> Grid<T>.get(point: Point): T = this[point.second][point.first]
 
 fun <T> Grid<T>.positionOfFirst(predicate: (T) -> Boolean): Point {
@@ -38,6 +48,14 @@ fun <T> Grid<T>.positionOfFirst(predicate: (T) -> Boolean): Point {
         }
     }
     return Point(-1, -1)
+}
+
+fun <T> Grid<T>.forEachPoint(action: (T, Point) -> Unit) {
+    forEachIndexed { y, row ->
+        row.forEachIndexed { x, t ->
+            action(t, Point(x, y))
+        }
+    }
 }
 
 /**
