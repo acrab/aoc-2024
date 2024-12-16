@@ -13,7 +13,7 @@ fun main() {
         return input.mapNotNull { line ->
             val (sumString, valueString) = line.split(": ")
             val targetSum = sumString.toLong()
-            val values = valueString.split(" ").map { it.toLong() }
+            val values = valueString.toLongList()
             findTarget(0, values, targetSum)
         }.sum()
     }
@@ -37,7 +37,7 @@ fun main() {
         return input.mapNotNull { line ->
             val (sumString, valueString) = line.split(": ")
             val targetSum = sumString.toLong()
-            val values = valueString.split(" ").map { it.toLong() }
+            val values = valueString.toLongList()
             findTargetPartTwo(0, values, targetSum)
         }.sum()
     }

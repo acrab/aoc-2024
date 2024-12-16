@@ -1,26 +1,17 @@
 fun main() {
 
-    fun basicSafetyCheck(nums: List<Int>): Boolean {
-        val windows = nums.windowed(2)
-        return windows.all { (l, r) -> l - r in 1..3 } || windows.all { (l, r) -> r - l in 1..3 }
-    }
+    fun List<Int>.basicSafetyCheck(): Boolean =
+        with(windowed(2)) { all { (l, r) -> l - r in 1..3 } || all { (l, r) -> r - l in 1..3 } }
 
-    fun partOne(input: List<String>): Int {
-        return input.count { report ->
-            basicSafetyCheck(report.split(" ").map { it.toInt() })
-        }
-    }
+    fun partOne(input: List<String>): Int =
+        input.count { it.toIntList().basicSafetyCheck() }
 
-
-    fun partTwo(input: List<String>): Int {
-        return input.count { report ->
-            val nums = report.split(" ").map { it.toInt() }
-
-            basicSafetyCheck(nums) || nums.indices.any {
-                basicSafetyCheck(nums.subList(0, it) + nums.subList(it + 1, nums.size))
+    fun partTwo(input: List<String>): Int =
+        input.count { report ->
+            with(report.toIntList()) {
+                this.basicSafetyCheck() || indices.any { (subList(0, it) + subList(it + 1, size)).basicSafetyCheck() }
             }
         }
-    }
 
     val test = readTest("day02")
     assert(partOne(test) == 2)

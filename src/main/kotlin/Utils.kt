@@ -58,6 +58,12 @@ fun <T> Grid<T>.forEachPoint(action: (T, Point) -> Unit) {
     }
 }
 
+fun <T> Grid<T>.sumOfPoints(action: (T, Point) -> Long): Long {
+    var sum = 0L
+    forEachPoint { t, p -> sum += action(t, p) }
+    return sum
+}
+
 /**
  * If an entry for `key` exists, adds `value` to its list.
  * If there's no entry, adds a new list for that key, with `value` as it's only member
@@ -104,3 +110,6 @@ fun <T> Iterable<T>.sumOfIndexed(selector: (T, Long) -> Long): Long {
     forEachIndexed { index, t -> sum += selector(t, index.toLong()) }
     return sum
 }
+
+fun String.toIntList(delimiter: String = " ") = split(delimiter).map { it.toInt() }
+fun String.toLongList(delimiter: String = " ") = split(delimiter).map { it.toLong() }
