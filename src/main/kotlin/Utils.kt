@@ -36,7 +36,22 @@ fun left(start: Point): Point? = if (start.first == 0) null else Point(start.fir
 fun <T> Grid<T>.right(start: Point): Point? =
     if (start.first == get(0).size - 1) null else Point(start.first + 1, start.second)
 
+fun <T> Grid<T>.move(start: Point, direction: Direction): Point? =
+    when (direction) {
+        Direction.UP -> up(start)
+        Direction.LEFT -> left(start)
+        Direction.DOWN -> down(start)
+        Direction.RIGHT -> right(start)
+    }
+
 fun <T> Grid<T>.cardinals(start: Point) = listOfNotNull(up(start), down(start), left(start), right(start))
+
+fun <T> Grid<T>.directionalCardinals(start: Point) = mapOf(
+    Direction.UP to up(start),
+    Direction.DOWN to down(start),
+    Direction.LEFT to left(start),
+    Direction.RIGHT to right(start)
+)
 
 fun <T> Grid<T>.get(point: Point): T = this[point.second][point.first]
 
